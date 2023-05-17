@@ -29,8 +29,9 @@ class ScannerViewModel {
     scannedItem = itemsInCardList.firstWhereOrNull((element) => element.barcode == barcode);
 
     if (scannedItem != null) {
-      final bool decreaseAble = scannedItem.tryDecreaseAmount();
-      if (decreaseAble) {
+      final bool increaseAble = scannedItem.tryIncreaseAmountItemInCardList();
+      if (increaseAble) {
+        scannedItem.amount--;
         scannedItem.itemsInCardList++;
       }else {
         throw ProductRunOutOfStockError(errorStatus: 200, message: 'Product run out of stock');
@@ -38,9 +39,10 @@ class ScannerViewModel {
     }else {
       try {
         scannedItem = await _service.fetchProductByBarcode(barcode: barcode);
-        final bool decreaseAble = scannedItem.tryDecreaseAmount();
-        if (decreaseAble) {
+        final bool increaseAble = scannedItem.tryIncreaseAmountItemInCardList();
+        if (increaseAble) {
           itemsInCardList.add(scannedItem);
+          scannedItem.amount--;
           scannedItem.itemsInCardList++;
         }else {
           throw ProductRunOutOfStockError(errorStatus: 200, message: 'Product run out of stock');
@@ -56,8 +58,9 @@ class ScannerViewModel {
     identifiedItem = itemsInCardList.firstWhereOrNull((element) => element.barcode == keyword);
 
     if (identifiedItem != null) {
-      final bool decreaseAble = identifiedItem.tryDecreaseAmount();
-      if (decreaseAble) {
+      final bool increaseAble = identifiedItem.tryIncreaseAmountItemInCardList();
+      if (increaseAble) {
+        identifiedItem.amount--;
         identifiedItem.itemsInCardList++;
       }else {
         throw ProductRunOutOfStockError(errorStatus: 200, message: 'Product run out of stock');
@@ -65,9 +68,10 @@ class ScannerViewModel {
     }else {
       try {
         identifiedItem = await _service.fetchProductById(keyword: keyword);
-        final bool decreaseAble = identifiedItem.tryDecreaseAmount();
-        if (decreaseAble) {
+        final bool increaseAble = identifiedItem.tryIncreaseAmountItemInCardList();
+        if (increaseAble) {
           itemsInCardList.add(identifiedItem);
+          identifiedItem.amount--;
           identifiedItem.itemsInCardList++;
         }else {
           throw ProductRunOutOfStockError(errorStatus: 200, message: 'Product run out of stock');

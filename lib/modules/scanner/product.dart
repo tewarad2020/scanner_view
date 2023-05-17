@@ -1,7 +1,7 @@
 class Product {
+  late String skuId;
   late String name;
   late String nickname;
-  late String skuId;
   late String barcode;
   late int amount;
   late double unitPrice;
@@ -17,9 +17,8 @@ class Product {
     required this.itemsInCardList
   });
 
-  bool tryDecreaseAmount() {
+  bool tryIncreaseAmountItemInCardList() {
     if (amount >= 1) {
-      amount--;
       return true;
     }
 
